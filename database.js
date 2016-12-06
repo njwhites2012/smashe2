@@ -159,6 +159,16 @@ var DB = {
             }
         });
     },
+    get_characters: function(callback) {
+        DB.database.collection('characters').find().limit(100).toArray(function(err,docs) {
+            if (docs[0] != null) {
+                callback(docs);
+            }
+            else {
+                callback(false);
+            }
+        });
+    },
     /*//add member
     add_member: function (first, last, password, salt, email, phone, type, premium_status, stripe_id, callback) {
         var instance = new DB.user();

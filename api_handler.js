@@ -80,19 +80,10 @@ var API = {
                 API.methodNotAllowed(req,res);
             }
         });
-        // generate reset code
-        API.app.all('/reset(/)?', function(req,res){
-            if (req.method == "POST") {
-                API.reset_password(req,res);
-            }
-            else {
-                API.methodNotAllowed(req,res);
-            }
-        });
-        // update password
-        API.app.all('/update-password(/)?', function(req,res){
-            if (req.method == "POST") {
-                API.update_password(req,res);
+        // get all characters
+        API.app.all('/characters(/)?', function(req,res) {
+            if (req.method == "GET") {
+                API.characters(req,res);
             }
             else {
                 API.methodNotAllowed(req,res);
@@ -404,6 +395,20 @@ var API = {
         else {
             API.badDataReceived(req,res);
         }
+    },
+    //get character
+    characters: function(req,res) {
+        var response = { status: {code:"0",description:":)"} };
+
+        var characters = API.database.get_characters(function(characters){
+            if (characters) {
+                response.characters = characters;
+                API.sendResponse(req,res,response);
+            }
+            else {
+                API.badDataReceived(req,res);
+            }
+        });
     },
     //gets active rides of a user
     user_rides: function(req,res) {
