@@ -16,7 +16,7 @@
 		"body-parser": "^1.15.2",
 		"request": "^2.79.0",
     "mongodb": "1.0.0",
-    "mongoose": "1.0.0",
+    "mongoose": "4.7.1",
     "stripe": "1.0.0"
 	},
   "homepage": "http://piggybacknwa.com"
