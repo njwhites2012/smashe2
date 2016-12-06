@@ -1,0 +1,15 @@
+{
+  "name": "PiggyBack_Cloud",
+  "version": "1.0.0",
+  "description": "A socket layer, restful API, and database interaction. All in one!",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "author": "Michael Mahler & Nate Whitesell",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "~1.3.7"
+  },
+  "homepage": "http://piggybacknwa.com"
+}
