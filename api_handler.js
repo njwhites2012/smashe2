@@ -9,8 +9,6 @@ var API = {
         this.path = require('path');
         this.bodyParser = require('body-parser');
         this.https = require('https');
-        this.nodemailer = require('nodemailer');
-        this.emailer = this.nodemailer.createTransport({ service: 'Gmail', auth: { user: 'JoinUs@piggybacknwa.com', pass: 'harvardnwa1' } });
         this.crypto = require('crypto');
 
         // best way to get the "body" from POST requests
@@ -385,7 +383,7 @@ var API = {
             API.badDataReceived(req,res);
         }
     },
-    
+
     //get character
     character: function(req,res) {
         var response = { status: {code:"0",description:":)"} };
