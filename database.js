@@ -65,6 +65,7 @@ var DB = {
           id: DB.Schema.ObjectId,
           name: { type: String, unique: true, required: true },
           image: { type: String, unique: true, required: true },
+          back_image: { type: String, unique: true, required: false },
         });
         DB.character = DB.database.model('character', DB.characterSchema);
       });
@@ -125,10 +126,11 @@ var DB = {
             }
         });
     },
-    add_character: function (name, image, callback) {
+    add_character: function (name, image, back, callback) {
         var instance = new DB.character();
         instance.name = name;
         instance.image = image;
+        instance.back_image = back;
         instance.save(function (error) {
             if (error) {
                 console.log(error);

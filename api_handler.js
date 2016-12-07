@@ -328,8 +328,12 @@ var API = {
         //required items
         var name = req.body.name;
         var image = req.body.image;
+
+        //optional items
+        var back = req.body.back_image;
+
         if (name != null) {
-            API.database.add_character(name, image,
+            API.database.add_character(name, image, back,
             function(character) {
                 if (character) {
                     response.character = character;
