@@ -39,10 +39,10 @@ var DB = {
               tourney_id: { type: String, required: false }
           }],
           character_rank: [{
-              character_id: { type: String, required: false },
-              character_name: { type: String, required: false },
-              character_image: { type: String, required: false },
-              character_position: { type: String, required: false },
+              character_name: { type: String, required: true },
+              character_image: { type: String, required: true },
+              character_position: { type: String, required: true },
+              back_image: { type: String, required: false },
           }],
         });
         DB.user = DB.database.model('user', DB.userSchema);
@@ -142,7 +142,7 @@ var DB = {
         });
     },
     add_tourney_character: function (number, tourney_id, character_name, user_id, callback) {
-        DB.database.collection('tourneys').update({'_id':DB.ObjectId(tourney_id)}, {$addToSet: { "active_users": {"id" : number, "user_id" : user_id, "character_name" : character_id}}} , function(error, result) {
+        DB.database.collection('tourneys').update({'_id':DB.ObjectId(tourney_id)}, {$addToSet: { "active_users": {"id" : number, "user_id" : user_id, "character_name" : character_name}}} , function(error, result) {
             if (result) {
                 callback(result);
             }
@@ -169,6 +169,21 @@ var DB = {
             else {
                 callback(false);
             }
+        });
+    },
+    add_character_list: function (user_id, name, rank, callback) {
+        DB.get_character(name, function(character){
+          if(character){
+            var parsed = JSON.parse(JSON.stringify(character[0]));
+            DB.database.collection('users').update({'_id':DB.ObjectId(user_id)}, {$addToSet: { "character_rank": {"character_name" : parsed.name, "character_image" : parsed.image, "character_position": rank, "back_image": parsed.back_image}}} , function(error, result) {
+                if (result) {
+                    callback(result);
+                }
+                else {
+                    callback(false);
+                }
+            });
+          }
         });
     },
     /*//add member

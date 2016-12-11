@@ -90,9 +90,9 @@ var API = {
             }
         });
         // coupon create
-        API.app.all('/coupons/create(/)?', function(req,res){
+        API.app.all('/character/list(/)?', function(req,res){
             if (req.method == "POST") {
-                API.coupon_create(req,res);
+                API.add_character_list(req,res);
             }
             else {
                 API.methodNotAllowed(req,res);
@@ -378,7 +378,6 @@ var API = {
             API.badDataReceived(req,res);
         }
     },
-
     //get character
     character: function(req,res) {
         var response = { status: {code:"0",description:":)"} };
@@ -400,7 +399,7 @@ var API = {
             API.badDataReceived(req,res);
         }
     },
-    //get character
+    //get all characters
     characters: function(req,res) {
         var response = { status: {code:"0",description:":)"} };
 
@@ -413,6 +412,31 @@ var API = {
                 API.badDataReceived(req,res);
             }
         });
+    },
+    add_character_list: function(req,res) {
+        var response = { status: {code:"0",description:":)"} };
+        //required items
+        var name = req.body.name;
+        var rank = req.body.rank;
+        var user_id = req.body.user_id;
+
+        if (name != null && rank != null && user_id != null) {
+            API.database.add_character_list(user_id, name, rank,
+            function(user) {
+                if (user) {
+                    response.user = user;
+                    API.sendResponse(req, res, response);
+                }
+                else {
+                    response.status.code = "-22";
+                    response.status.description = "Error Inserting Into the Database.";
+                    API.sendResponse(req,res,response);
+                }
+            });
+        }
+        else {
+            API.badDataReceived(req,res);
+        }
     },
     //gets active rides of a user
     user_rides: function(req,res) {
