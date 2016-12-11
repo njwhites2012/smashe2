@@ -186,6 +186,16 @@ var DB = {
           }
         });
     },
+    delete_character_list: function (user_id, callback) {
+      DB.database.collection('users').update({'_id':DB.ObjectId(user_id)}, {$set: {"character_rank": []}}, function(error, result) {
+          if (result) {
+              callback(result);
+          }
+          else {
+              callback(false);
+          }
+      });
+    },
     /*//add member
     add_member: function (first, last, password, salt, email, phone, type, premium_status, stripe_id, callback) {
         var instance = new DB.user();

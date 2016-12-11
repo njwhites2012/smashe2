@@ -98,10 +98,10 @@ var API = {
                 API.methodNotAllowed(req,res);
             }
         });
-        // coupon delete
-        API.app.all('/coupons/delete(/)?', function(req,res){
+        // delete character list
+        API.app.all('/character/list/delete(/)?', function(req,res){
             if (req.method == "POST") {
-                API.coupon_delete(req,res);
+                API.delete_character_list(req,res);
             }
             else {
                 API.methodNotAllowed(req,res);
@@ -430,6 +430,31 @@ var API = {
                 else {
                     response.status.code = "-22";
                     response.status.description = "Error Inserting Into the Database.";
+                    API.sendResponse(req,res,response);
+                }
+            });
+        }
+        else {
+            API.badDataReceived(req,res);
+        }
+    },
+    delete_character_list: function(req,res) {
+        var response = { status: {code:"0",description:":)"} };
+
+        var user_id = req.body.user_id;
+
+        if (user_id != null) {
+            API.database.delete_character_list(user_id,
+              function(user) {
+                if (user) {
+                    response.success = true;
+                    response.user = user;
+                    API.sendResponse(req,res,response);
+                }
+                else {
+                    response.success = false;
+                    response.status.code = "-22";
+                    response.status.description = "Error Deleted From the Database.";
                     API.sendResponse(req,res,response);
                 }
             });
